@@ -8,7 +8,7 @@ export MYSQLD_SSL_CA=/etc/mysql/rootCA.crt
 
 echo -e "[mysqld]\n" >/etc/my.cnf.d/custom.cnf
 for var in $(env | grep MYSQLD_ | sed 's/MYSQLD_//'); do
-  echo $var | tr '[:upper:]' '[:lower:]' >>/etc/my.conf.d/custom.cnf
+  echo $var | tr '[:upper:]' '[:lower:]' >>/etc/my.cnf.d/custom.cnf
 done
 
 
