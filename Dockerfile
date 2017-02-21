@@ -55,7 +55,17 @@ RUN /usr/libexec/container-setup
 
 VOLUME ["/var/lib/mysql/data"]
 
+#############
+
+COPY server.key /etc/mysql/server.key
+COPY server.crt /etc/mysql/server.crt
+COPY rootCA.crt /etc/mysql/rootCA.crt
+
+
+#############
+
 USER 27
+
 
 ENTRYPOINT ["container-entrypoint"]
 CMD ["run-mysqld"]
