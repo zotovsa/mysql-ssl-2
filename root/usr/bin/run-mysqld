@@ -1,5 +1,20 @@
 #!/bin/bash
 
+
+##########
+export MYSQLD_SSL_KEY=/etc/mysql/server.key
+export MYSQLD_SSL_CERT=/etc/mysql/server.crt
+export MYSQLD_SSL_CA=/etc/mysql/rootCA.crt
+
+
+echo -e "[mysqld]\n" >/etc/my.cnf.d/custom.cnf
+for var in $(env | grep MYSQLD_ | sed 's/MYSQLD_//'); do
+  echo $var | tr '[:upper:]' '[:lower:]' >>/etc/my.cnf.d/custom.cnf
+done
+##########
+
+
+
 source ${CONTAINER_SCRIPTS_PATH}/common.sh
 set -eu
 
@@ -14,22 +29,6 @@ log_info 'Processing MySQL configuration files ...'
 envsubst < ${CONTAINER_SCRIPTS_PATH}/my-base.cnf.template > /etc/my.cnf.d/base.cnf
 envsubst < ${CONTAINER_SCRIPTS_PATH}/my-paas.cnf.template > /etc/my.cnf.d/paas.cnf
 envsubst < ${CONTAINER_SCRIPTS_PATH}/my-tuning.cnf.template > /etc/my.cnf.d/tuning.cnf
-
-##########
-
-export MYSQLD_SSL_KEY=/etc/mysql/server.key
-export MYSQLD_SSL_CERT=/etc/mysql/server.crt
-export MYSQLD_SSL_CA=/etc/mysql/rootCA.crt
-
-chown -R mysql:mysql /etc/mysql
-
-echo -e "[mysqld]\n" >/etc/my.cnf.d/custom.cnf
-for var in $(env | grep MYSQLD_ | sed 's/MYSQLD_//'); do
-  echo $var | tr '[:upper:]' '[:lower:]' >>/etc/my.cnf.d/custom.cnf
-done
-
-
-##########
 
 if [ ! -d "$MYSQL_DATADIR/mysql" ]; then
   initialize_database "$@"
