@@ -61,6 +61,7 @@ COPY server.key /etc/mysql/server.key
 COPY server.crt /etc/mysql/server.crt
 COPY rootCA.crt /etc/mysql/rootCA.crt
 
+chown -R 27:27 /etc/mysql
 
 #############
 
