@@ -59,9 +59,13 @@ VOLUME ["/var/lib/mysql/data"]
 
 COPY server.key /etc/mysql/server.key
 COPY server.crt /etc/mysql/server.crt
-COPY rootCA.crt /etc/mysql/rootCA.crt
+COPY rootca.crt /etc/mysql/rootca.crt
 
 RUN chown -R 27:27 /etc/mysql
+RUN chown -R mysql:mysql /etc/mysql/
+RUN chmod -R 644 /etc/mysql/
+RUN chmod 755 /etc/mysql/
+
 
 #############
 
